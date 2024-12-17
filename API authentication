@@ -1,0 +1,11 @@
+# Gemini API Authentication
+def authenticate_gemini():
+    headers = {
+        "Content-Type": "application/json",
+        "X-GEMINI-APIKEY": GEMINI_API_KEY,
+    }
+    response = requests.get("https://api.gemini.com/v1/pubticker/btcusd", headers=headers)
+    if response.status_code == 200:
+        print("Authenticated successfully with Gemini API!")
+    else:
+        raise Exception(f"Authentication failed: {response.json()}")

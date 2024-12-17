@@ -1,0 +1,4 @@
+# Generate a simple response
+def generate_response(query, context):
+    response = f"Query: {query}\n\nRelevant Context:\n{context}"
+    return response

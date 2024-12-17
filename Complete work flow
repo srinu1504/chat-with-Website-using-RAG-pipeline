@@ -1,0 +1,40 @@
+# Complete Workflow
+try:
+    # Authenticate with Gemini
+    authenticate_gemini()
+
+    # List of URLs to scrape
+    urls = [
+        "https://www.uchicago.edu/",
+        "https://www.washington.edu/",
+        "https://www.stanford.edu/",
+        "https://und.edu/"
+    ]
+
+    # Scrape content from websites
+    all_chunks = []
+    for url in urls:
+        try:
+            print(f"Scraping: {url}")
+            website_text = scrape_website(url)
+        except Exception as e:
+            print(f"Using Selenium for: {url}")
+            website_text = scrape_website_with_selenium(url)
+        chunks = chunk_text(website_text)
+        all_chunks.extend(chunks)
+
+    # Store embeddings in FAISS
+    vector_db, embeddings = embed_and_store(all_chunks)
+    # Query the system
+    query = "What are the main features of Stanford University?"
+    retrieved_chunks = query_vector_search(query, vector_db, all_chunks)
+    context = "\n".join(retrieved_chunks)
+
+    # Generate response
+    response = generate_response(query, context)
+    print("\nResponse:")
+    print(response)
+
+except Exception as e:
+    print("Error occurred:", e)
+

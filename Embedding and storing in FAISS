@@ -1,0 +1,9 @@
+# Embedding and storing in FAISS
+model = SentenceTransformer('all-MiniLM-L6-v2')
+
+def embed_and_store(chunks):
+    embeddings = model.encode(chunks)
+    dimension = embeddings.shape[1]
+    vector_db = faiss.IndexFlatL2(dimension)
+    vector_db.add(embeddings)
+    return vector_db, embeddings

@@ -1,0 +1,13 @@
+ Scrape website using requests
+def scrape_website(url):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, "html.parser")
+        paragraphs = soup.find_all("p")
+        text = " ".join([para.get_text() for para in paragraphs])
+        return text
+    else:
+        raise Exception(f"Failed to fetch {url}: {response.status_code}")
